@@ -206,12 +206,12 @@ window.addEventListener('DOMContentLoaded', () => {
     return await res.json();
   };
 
-  getResource('http://localhost:3000/menu')
-    .then(data => {
-      data.forEach(({ img, altimg, title, descr, price }) => {
-        new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
-      });
-    });
+  // getResource('http://localhost:3000/menu')
+  //   .then(data => {
+  //     data.forEach(({ img, altimg, title, descr, price }) => {
+  //       new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+  //     });
+  //   });
 
   // getResource('http://localhost:3000/menu')
   //   .then(data => createCard(data));
@@ -237,6 +237,13 @@ window.addEventListener('DOMContentLoaded', () => {
   //     document.querySelector('.menu .container').append(element);
   //   })
   // };
+
+  axios.get('http://localhost:3000/menu')
+    .then(data => {
+      data.data.forEach(({ img, altimg, title, descr, price }) => {
+        new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+      });
+    });
 
   // Forms
 
@@ -317,7 +324,34 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 4000);
   }
 
-  fetch('http://localhost:3000/menu')
-    .then(data => data.json())
-    .then(res => console.log(res));
+  // Slider
+
+  const slides = document.querySelectorAll('.offer__slide'),
+        btnPrev = document.querySelector('.offer__slider-prev'),
+        btnNext = document.querySelector('.offer__slider-next');
+  
+  document.querySelector('#total').innerText = String(slides.length).padStart(2, '0');
+  const current = document.querySelector('#current');
+
+  let slideIndex = 0;
+
+  function showSlide(index) {
+    current.innerText = String(index + 1).padStart(2, '0');
+    slides.forEach((img, i) => {
+      img.classList.toggle('hide', i !== slideIndex);
+    });
+  }
+
+  btnPrev.addEventListener('click', () => {
+    slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+    showSlide(slideIndex);
+  });
+
+  btnNext.addEventListener('click', () => {
+    slideIndex = (slideIndex + 1) % slides.length;
+    showSlide(slideIndex);
+  });
+
+
+  showSlide(slideIndex);
 });

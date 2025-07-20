@@ -360,7 +360,7 @@ window.addEventListener('DOMContentLoaded', () => {
   slider.style.position = 'relative';
 
   const indicators = document.createElement('ol'),
-    dots = [];
+        dots = [];
 
   indicators.classList.add('carusel-indicators');
   indicators.style.cssText = `
@@ -404,11 +404,15 @@ window.addEventListener('DOMContentLoaded', () => {
     dots.push(dot);
   }
 
+  function replaceNotDigits(str) {
+    return +str.replace(/\D/g, '');
+  }
+
   btnNext.addEventListener('click', () => {
-    if (offset === +width.slice(0, width.length - 2) * (slides.length - 1)) {
+    if (offset === replaceNotDigits(width) * (slides.length - 1)) {
       offset = 0;
     } else {
-      offset += +width.slice(0, width.length - 2);
+      offset += replaceNotDigits(width);
     }
 
     slidesField.style.transform = `translateX(-${offset}px)`;
@@ -431,14 +435,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   btnPrev.addEventListener('click', () => {
     if (offset === 0) {
-      offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+      offset = replaceNotDigits(width) * (slides.length - 1);
     } else {
-      offset -= +width.slice(0, width.length - 2);
+      offset -= replaceNotDigits(width);
     }
 
     slidesField.style.transform = `translateX(-${offset}px)`;
 
     if (slideIndex === 1) {
+      console.log('if === 1');
       slideIndex = slides.length;
     } else {
       slideIndex--;
@@ -456,10 +461,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   dots.forEach(dot => {
     dot.addEventListener('click', (e) => {
-      const slideTo = e.target.getAttribute('data-slide-to');
+      const slideTo = +e.target.getAttribute('data-slide-to');
 
       slideIndex = slideTo;
-      offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+
+      offset = replaceNotDigits(width) * (slideTo - 1);
 
       slidesField.style.transform = `translateX(-${offset}px)`;
 

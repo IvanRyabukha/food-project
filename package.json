@@ -13,12 +13,25 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "browserslist": [
+    ">1%"
+  ],
   "bugs": {
     "url": "https://github.com/IvanRyabukha/food-project/issues"
   },
   "homepage": "https://github.com/IvanRyabukha/food-project#readme",
   "devDependencies": {
+    "@babel/cli": "^7.28.0",
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "babel-loader": "^10.0.0",
+    "core-js": "^3.44.0",
     "json-server": "^1.0.0-beta.3",
     "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "es6-promise": "^4.2.8",
+    "nodelist-foreach-polyfill": "^1.2.0"
   }
 }
